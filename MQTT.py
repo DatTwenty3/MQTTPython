@@ -60,15 +60,20 @@ while True:
             client.publish("Status", "SttDV2ON")
             print("Device 2 is ON!")
         elif (dataFromArduino==b'SttDV2OFF'):
+            client.publish("Status", "SttDV2OFF")
             #MQTT publish
             client.publish("Status", "SttDV2OFF")
             print("Device 2 is OFF!")
         
         else:
             dataFromSensor = int(dataFromArduino)
-            client.publish("AirHumi", dataFromSensor//100)
-            client.publish("Temp", dataFromSensor%100)
-            
+            print(dataFromSensor)
+            AirHumi = dataFromSensor//1000000
+            Temp = (dataFromSensor%100000)//1000
+            SoilMois = (dataFromSensor%100000)%1000
+            client.publish("AirHumi", AirHumi)
+            client.publish("Temp", Temp)
+            client.publish("SoilMois", SoilMois)
             
     
     #MQTT
