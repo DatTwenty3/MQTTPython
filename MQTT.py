@@ -64,16 +64,57 @@ while True:
             #MQTT publish
             client.publish("Status", "SttDV2OFF")
             print("Device 2 is OFF!")
+        elif (str(dataFromArduino).find("Temp") > 0):
+            temp = str(dataFromArduino)
+            temp = temp.replace(" Temp","")
+            temp = temp.replace("b","")
+            temp = temp.replace("'","")
+            print("Temperature: ")
+            print(int(temp))
+            client.publish("Temp", int(temp))
+        elif (str(dataFromArduino).find("Humi") > 0):
+            airHumi = str(dataFromArduino)
+            airHumi = airHumi.replace(" Humi","")
+            airHumi = airHumi.replace("b","")
+            airHumi = airHumi.replace("'","")
+            print("Humidity: ")
+            print(int(airHumi))
+            client.publish("AirHumi", int(airHumi))
+        elif (str(dataFromArduino).find("SoilMois") > 0):
+            soilMois = str(dataFromArduino)
+            soilMois = soilMois.replace(" SoilMois","")
+            soilMois = soilMois.replace("b","")
+            soilMois = soilMois.replace("'","")
+            print("Soil Moisture: ")
+            print(int(soilMois))
+            client.publish("SoilMois", int(soilMois))
+        elif (str(dataFromArduino).find("ORP") > 0):
+            ORP = str(dataFromArduino)
+            ORP = ORP.replace(" ORP","")
+            ORP = ORP.replace("b","")
+            ORP = ORP.replace("'","")
+            print("ORP: ")
+            print(int(ORP))
+            client.publish("ORP", int(ORP))
+        elif (str(dataFromArduino).find("pH") > 0):
+            pH = str(dataFromArduino)
+            pH = pH.replace(" pH","")
+            pH = pH.replace("b","")
+            pH = pH.replace("'","")
+            print("pH: ")
+            print(int(pH))
+            client.publish("pH", int(pH))
         
-        else:
-            dataFromSensor = int(dataFromArduino)
-            print(dataFromSensor)
-            AirHumi = dataFromSensor//1000000
-            Temp = (dataFromSensor%100000)//1000
-            SoilMois = (dataFromSensor%100000)%1000
-            client.publish("AirHumi", AirHumi)
-            client.publish("Temp", Temp)
-            client.publish("SoilMois", SoilMois)
+        
+        #else:
+            #dataFromSensor = dataFromArduino
+            #print(dataFromSensor)
+            #AirHumi = dataFromSensor//1000000
+            #Temp = (dataFromSensor%100000)//1000
+            #SoilMois = (dataFromSensor%100000)%1000
+            #client.publish("AirHumi", AirHumi)
+            #client.publish("Temp", Temp)
+            #client.publish("SoilMois", SoilMois)
             
     
     #MQTT
