@@ -1,5 +1,8 @@
 import paho.mqtt.client as mqttclient
 import time
+#GUI
+from tkinter import *
+import threading
 #LoRa
 import serial
 from time import sleep
@@ -37,94 +40,100 @@ client.on_message=on_message
 client.connect(broker_address,port,60)
 client.username_pw_set(user,password=password)
 
-i = 0
+#GUI
+win = Tk()
+#pH
+labelPH = Label(win, text = "pH: ")
+labelPH.pack()
+labelPHVal = Label(win, text = "null")
+labelPHVal.pack()
+#ORP
+labelORP = Label(win, text = "ORP: ")
+labelORP.pack()
+labelORPVal = Label(win, text = "null")
+labelORPVal.pack()
 
 #client.loop_forever()
-client.loop_start()
+client.loop_start()                  
 time.sleep(1)
-while True:
-    #LoRa
-    if (ser.in_waiting>0):
-        dataFromArduino = ser.read(ser.inWaiting())
-        if (dataFromArduino==b'SttDV1ON'):
-            #MQTT publish
-            client.publish("Status", "SttDV1ON")
-            print("Device 1 is ON!")
-        elif (dataFromArduino==b'SttDV1OFF'):
-            #MQTT publish
-            client.publish("Status", "SttDV1OFF")
-            print("Device 1 is OFF!")
+def UpdatePara():
+    while True:
+        #LoRa
+        if (ser.in_waiting>0):
+            dataFromArduino = ser.read(ser.inWaiting())
+            if (dataFromArduino==b'SttDV1ON'):
+                #MQTT publish
+                client.publish("Status", "SttDV1ON")
+                print("Device 1 is ON!")
+            elif (dataFromArduino==b'SttDV1OFF'):
+                #MQTT publish
+                client.publish("Status", "SttDV1OFF")
+                print("Device 1 is OFF!")
             
-        elif (dataFromArduino==b'SttDV2ON'):
-            #MQTT publish
-            client.publish("Status", "SttDV2ON")
-            print("Device 2 is ON!")
-        elif (dataFromArduino==b'SttDV2OFF'):
-            client.publish("Status", "SttDV2OFF")
-            #MQTT publish
-            client.publish("Status", "SttDV2OFF")
-            print("Device 2 is OFF!")
-        elif (str(dataFromArduino).find("Temp") > 0):
-            temp = str(dataFromArduino)
-            temp = temp.replace(" Temp","")
-            temp = temp.replace("b","")
-            temp = temp.replace("'","")
-            print("Temperature: ")
-            print(int(temp))
-            client.publish("Temp", int(temp))
-        elif (str(dataFromArduino).find("Humi") > 0):
-            airHumi = str(dataFromArduino)
-            airHumi = airHumi.replace(" Humi","")
-            airHumi = airHumi.replace("b","")
-            airHumi = airHumi.replace("'","")
-            print("Humidity: ")
-            print(int(airHumi))
-            client.publish("AirHumi", int(airHumi))
-        elif (str(dataFromArduino).find("SoilMois") > 0):
-            soilMois = str(dataFromArduino)
-            soilMois = soilMois.replace(" SoilMois","")
-            soilMois = soilMois.replace("b","")
-            soilMois = soilMois.replace("'","")
-            print("Soil Moisture: ")
-            print(int(soilMois))
-            client.publish("SoilMois", int(soilMois))
-        elif (str(dataFromArduino).find("ORP") > 0):
-            ORP = str(dataFromArduino)
-            ORP = ORP.replace(" ORP","")
-            ORP = ORP.replace("b","")
-            ORP = ORP.replace("'","")
-            print("ORP: ")
-            print(int(ORP))
-            client.publish("ORP", int(ORP))
-        elif (str(dataFromArduino).find("pH") > 0):
-            pH = str(dataFromArduino)
-            pH = pH.replace(" pH","")
-            pH = pH.replace("b","")
-            pH = pH.replace("'","")
-            print("pH: ")
-            print(int(pH))
-            client.publish("pH", int(pH))
+            elif (dataFromArduino==b'SttDV2ON'):
+                #MQTT publish
+                client.publish("Status", "SttDV2ON")
+                print("Device 2 is ON!")
+            elif (dataFromArduino==b'SttDV2OFF'):
+                client.publish("Status", "SttDV2OFF")
+                #MQTT publish
+                client.publish("Status", "SttDV2OFF")
+                print("Device 2 is OFF!")
+            elif (str(dataFromArduino).find("Temp") > 0):
+                temp = str(dataFromArduino)
+                temp = temp.replace(" Temp","")
+                temp = temp.replace("b","")
+                temp = temp.replace("'","")
+                print("Temperature: ")
+                print(int(temp))
+                client.publish("Temp", int(temp))
+            elif (str(dataFromArduino).find("Humi") > 0):
+                airHumi = str(dataFromArduino)
+                airHumi = airHumi.replace(" Humi","")
+                airHumi = airHumi.replace("b","")
+                airHumi = airHumi.replace("'","")
+                print("Humidity: ")
+                print(int(airHumi))
+                client.publish("AirHumi", int(airHumi))
+            elif (str(dataFromArduino).find("SoilMois") > 0):
+                soilMois = str(dataFromArduino)
+                soilMois = soilMois.replace(" SoilMois","")
+                soilMois = soilMois.replace("b","")
+                soilMois = soilMois.replace("'","")
+                print("Soil Moisture: ")
+                print(int(soilMois))
+                client.publish("SoilMois", int(soilMois))
+            elif (str(dataFromArduino).find("ORP") > 0):
+                ORP = str(dataFromArduino)
+                ORP = ORP.replace(" ORP","")
+                ORP = ORP.replace("b","")
+                ORP = ORP.replace("'","")
+                print("ORP: ")
+                print(int(ORP))
+                client.publish("ORP", int(ORP))
+                labelORPVal.config(text = ORP)
+            elif (str(dataFromArduino).find("pH") > 0):
+                pH = str(dataFromArduino)
+                pH = pH.replace(" pH","")
+                pH = pH.replace("b","")
+                pH = pH.replace("'","")
+                print("pH: ")
+                print(int(pH))
+                client.publish("pH", int(pH))
+                labelPHVal.config(text = pH)
+            elif (str(dataFromArduino).find("DS") > 0):
+                DS = str(dataFromArduino)
+                DS = DS.replace(" DS","")
+                DS = DS.replace("b","")
+                DS = DS.replace("'","")
+                print("Water Temperature: ")
+                print(int(DS))
+                client.publish("WaTemp", int(DS))
         
-        
-        #else:
-            #dataFromSensor = dataFromArduino
-            #print(dataFromSensor)
-            #AirHumi = dataFromSensor//1000000
-            #Temp = (dataFromSensor%100000)//1000
-            #SoilMois = (dataFromSensor%100000)%1000
-            #client.publish("AirHumi", AirHumi)
-            #client.publish("Temp", Temp)
-            #client.publish("SoilMois", SoilMois)
-            
-    
-    #MQTT
-    #i=i+1
-    #client.publish("Temp", str(i))
-    #client.publish("AirHumi", str(i+1))
-    #client.publish("SoilMois", str(i+2))
-    #client.publish("Power", str(i+3))
-    #print("Message sent!")
-    time.sleep(0.5)
-    
+        time.sleep(0.5)
+
+setTextThr = threading.Thread(target = UpdatePara)
+setTextThr.start()
+win.mainloop()
 client.loop_stop()
 client.disconnect()
