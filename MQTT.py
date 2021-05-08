@@ -143,39 +143,52 @@ labelORPVal = Label(win,
                     fg = '#FFEB3B',
                     font = 'Oswald 25 bold')
 labelORPVal.grid(row = 6, column = 1, sticky = E)
+#Turbidity
+labelTurbi = Label(win,
+                 text = "TURBIDITY: ",
+                 bg = 'black',
+                 fg = 'white',
+                 font = 'Oswald 25 bold')
+labelTurbi.grid(row = 7, column = 0, sticky = W)
+labelTurbiVal = Label(win,
+                    text = "null",
+                    bg = 'black',
+                    fg = '#FFEB3B',
+                    font = 'Oswald 25 bold')
+labelTurbiVal.grid(row = 7, column = 1, sticky = E)
 #Status Relay
 labelStatus = Label(win,
                     text = "STATUS DEVICE",
                     bg = 'black',
                     fg = '#00BCD4',
                     font = 'Oswald 25 bold',)
-labelStatus.grid(row = 7, column = 0, sticky = W)
+labelStatus.grid(row = 8, column = 0, sticky = W)
 #Light
 labelLight = Label(win,
                  text = "LIGHT: ",
                  bg = 'black',
                  fg = 'white',
                  font = 'Oswald 25 bold')
-labelLight.grid(row = 8, column = 0, sticky = W)
+labelLight.grid(row = 9, column = 0, sticky = W)
 labelLightStt = Label(win,
                     text = "",
                     bg = 'black',
                     fg = '#FFEB3B',
                     font = 'Oswald 25 bold')
-labelLightStt.grid(row = 8, column = 1, sticky = E)
+labelLightStt.grid(row = 9, column = 1, sticky = E)
 #Water Pump
 labelWaPump = Label(win,
                  text = "WATER PUMP: ",
                  bg = 'black',
                  fg = 'white',
                  font = 'Oswald 25 bold')
-labelWaPump.grid(row = 9, column = 0, sticky = W)
+labelWaPump.grid(row = 10, column = 0, sticky = W)
 labelWaPumpStt = Label(win,
                     text = "",
                     bg = 'black',
                     fg = '#FFEB3B',
                     font = 'Oswald 25 bold')
-labelWaPumpStt.grid(row = 9, column = 1, sticky = E)
+labelWaPumpStt.grid(row = 10, column = 1, sticky = E)
 
 #client.loop_forever()
 client.loop_start()                  
@@ -260,6 +273,15 @@ def UpdatePara():
                 print("Water Temperature: ")
                 print(int(DS))
                 client.publish("WaTemp", int(DS))
+            elif (str(dataFromArduino).find("Turbi") > 0):
+                Turbi = str(dataFromArduino)
+                Turbi = Turbi.replace(" Turbi","")
+                Turbi = Turbi.replace("b","")
+                Turbi = Turbi.replace("'","")
+                print("Turbidity: ")
+                print(int(Turbi))
+                client.publish("Turbi", int(Turbi))
+                labelTurbiVal.config(text = Turbi)
         
         time.sleep(0.5)
 
