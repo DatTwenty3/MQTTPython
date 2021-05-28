@@ -156,6 +156,12 @@ labelTurbiVal = Label(win,
                     fg = '#FFEB3B',
                     font = 'Oswald 25 bold')
 labelTurbiVal.grid(row = 7, column = 1, sticky = E)
+labelTurbiUnit = Label(win,
+                   text = " V",
+                   bg = 'black',
+                   fg = '#FFEB3B',
+                   font = 'Oswald 25 bold')
+labelTurbiUnit.grid(row = 7, column = 2, sticky = W)
 #Status Relay
 labelStatus = Label(win,
                     text = "STATUS DEVICE",
@@ -262,8 +268,8 @@ def UpdatePara():
                 pH = pH.replace("b","")
                 pH = pH.replace("'","")
                 print("pH: ")
-                print(int(pH))
-                client.publish("pH", int(pH))
+                print(float(pH))
+                client.publish("pH", float(pH))
                 labelPHVal.config(text = pH)
             elif (str(dataFromArduino).find("DS") > 0):
                 DS = str(dataFromArduino)
@@ -279,8 +285,8 @@ def UpdatePara():
                 Turbi = Turbi.replace("b","")
                 Turbi = Turbi.replace("'","")
                 print("Turbidity: ")
-                print(int(Turbi))
-                client.publish("Turbi", int(Turbi))
+                print(float(Turbi))
+                client.publish("Turbi", float(Turbi))
                 labelTurbiVal.config(text = Turbi)
         
         time.sleep(0.5)
