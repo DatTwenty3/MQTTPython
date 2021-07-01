@@ -157,7 +157,7 @@ labelTurbiVal = Label(win,
                     font = 'Oswald 25 bold')
 labelTurbiVal.grid(row = 7, column = 1, sticky = E)
 labelTurbiUnit = Label(win,
-                   text = " V",
+                   text = " NTU",
                    bg = 'black',
                    fg = '#FFEB3B',
                    font = 'Oswald 25 bold')
