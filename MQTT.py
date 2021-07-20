@@ -231,6 +231,8 @@ def UpdatePara():
                 temp = temp.replace(" Temp","")
                 temp = temp.replace("b","")
                 temp = temp.replace("'","")
+                if (len(temp) > 4):
+                    continue
                 print("Temperature: ")
                 print(int(temp))
                 client.publish("Temp", int(temp))
@@ -240,6 +242,8 @@ def UpdatePara():
                 airHumi = airHumi.replace(" Humi","")
                 airHumi = airHumi.replace("b","")
                 airHumi = airHumi.replace("'","")
+                if (len(airHumi) > 4):
+                    continue
                 print("Humidity: ")
                 print(int(airHumi))
                 client.publish("AirHumi", int(airHumi))
@@ -249,6 +253,7 @@ def UpdatePara():
                 soilMois = soilMois.replace(" SoilMois","")
                 soilMois = soilMois.replace("b","")
                 soilMois = soilMois.replace("'","")
+                
                 print("Soil Moisture: ")
                 print(int(soilMois))
                 client.publish("SoilMois", int(soilMois))
@@ -258,6 +263,8 @@ def UpdatePara():
                 ORP = ORP.replace(" ORP","")
                 ORP = ORP.replace("b","")
                 ORP = ORP.replace("'","")
+                if (len(ORP) > 4):
+                    continue
                 print("ORP: ")
                 print(int(ORP))
                 client.publish("ORP", int(ORP))
@@ -267,6 +274,8 @@ def UpdatePara():
                 pH = pH.replace(" pH","")
                 pH = pH.replace("b","")
                 pH = pH.replace("'","")
+                if (len(pH) > 4):
+                    continue
                 print("pH: ")
                 print(float(pH))
                 client.publish("pH", float(pH))
@@ -284,6 +293,8 @@ def UpdatePara():
                 Turbi = Turbi.replace(" Turbi","")
                 Turbi = Turbi.replace("b","")
                 Turbi = Turbi.replace("'","")
+                if (len(Turbi) > 8):
+                    continue
                 print("Turbidity: ")
                 print(float(Turbi))
                 client.publish("Turbi", float(Turbi))
