@@ -98,25 +98,27 @@ labelAirHumiUnit = Label(win,
                    fg = '#FFEB3B',
                    font = 'Oswald 25 bold')
 labelAirHumiUnit.grid(row = 3, column = 2, sticky = W)
+
 #SoilMois
-labelSoilMois = Label(win,
-                text = "SOIL MOISTURE: ",
-                bg = 'black',
-                fg = 'white',
-                font = 'Oswald 25 bold')
-labelSoilMois.grid(row = 4, column = 0, sticky = W)
-labelSoilMoisVal = Label(win,
-                   text = "null",
-                   bg = 'black',
-                   fg = '#FFEB3B',
-                   font = 'Oswald 25 bold')
-labelSoilMoisVal.grid(row = 4, column = 1, sticky = E)
-labelSoilMoisUnit = Label(win,
-                   text = " %",
-                   bg = 'black',
-                   fg = '#FFEB3B',
-                   font = 'Oswald 25 bold')
-labelSoilMoisUnit.grid(row = 4, column = 2, sticky = W)
+#labelSoilMois = Label(win,
+                #text = "SOIL MOISTURE: ",
+                #bg = 'black',
+                #fg = 'white',
+                #font = 'Oswald 25 bold')
+#labelSoilMois.grid(row = 4, column = 0, sticky = W)
+#labelSoilMoisVal = Label(win,
+                   #text = "null",
+                   #bg = 'black',
+                   #fg = '#FFEB3B',
+                   #font = 'Oswald 25 bold')
+#labelSoilMoisVal.grid(row = 4, column = 1, sticky = E)
+#labelSoilMoisUnit = Label(win,
+                   #text = " %",
+                   #bg = 'black',
+                   #fg = '#FFEB3B',
+                   #font = 'Oswald 25 bold')
+#labelSoilMoisUnit.grid(row = 4, column = 2, sticky = W)
+
 #pH
 labelPH = Label(win,
                 text = "WATER pH: ",
@@ -248,16 +250,17 @@ def UpdatePara():
                 print(int(airHumi))
                 client.publish("AirHumi", int(airHumi))
                 labelAirHumiVal.config(text = airHumi)
-            elif (str(dataFromArduino).find("SoilMois") > 0):
-                soilMois = str(dataFromArduino)
-                soilMois = soilMois.replace(" SoilMois","")
-                soilMois = soilMois.replace("b","")
-                soilMois = soilMois.replace("'","")
+            
+            #elif (str(dataFromArduino).find("SoilMois") > 0):
+                #soilMois = str(dataFromArduino)
+                #soilMois = soilMois.replace(" SoilMois","")
+                #soilMois = soilMois.replace("b","")
+                #soilMois = soilMois.replace("'","")
+                #print("Soil Moisture: ")
+                #print(int(soilMois))
+                #client.publish("SoilMois", int(soilMois))
+                #labelSoilMoisVal.config(text = soilMois)
                 
-                print("Soil Moisture: ")
-                print(int(soilMois))
-                client.publish("SoilMois", int(soilMois))
-                labelSoilMoisVal.config(text = soilMois)
             elif (str(dataFromArduino).find("ORP") > 0):
                 ORP = str(dataFromArduino)
                 ORP = ORP.replace(" ORP","")
