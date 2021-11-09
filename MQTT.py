@@ -308,8 +308,8 @@ def UpdatePara():
                 
                 #Package counter
                 countPack += 1
-                client.publish("Package", int(countPack))
-                print("Package counter: ")
+                client.publish("Packet", int(countPack))
+                print("Packet counter: ")
                 print(int(countPack))
         
         time.sleep(0.5)
