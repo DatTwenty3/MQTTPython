@@ -202,10 +202,13 @@ labelWaPumpStt.grid(row = 10, column = 1, sticky = E)
 client.loop_start()                  
 time.sleep(1)
 def UpdatePara():
+    #Package counter
+    countPack = 0
     while True:
         #LoRa
         if (ser.in_waiting>0):
             dataFromArduino = ser.read(ser.inWaiting())
+            
             if (dataFromArduino==b'SttDV1ON'):
                 #MQTT publish
                 client.publish("Status", "SttDV1ON")
@@ -302,6 +305,12 @@ def UpdatePara():
                 print(float(Turbi))
                 client.publish("Turbi", float(Turbi))
                 labelTurbiVal.config(text = Turbi)
+                
+                #Package counter
+                countPack += 1
+                client.publish("Package", int(countPack))
+                print("Package counter: ")
+                print(int(countPack))
         
         time.sleep(0.5)
 
